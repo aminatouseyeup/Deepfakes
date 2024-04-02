@@ -5,9 +5,13 @@ import sys
 
 sys.path.append("deepfake-image-detector")
 sys.path.append("deepfake-image-swap")
+sys.path.append("deepfake-audio-generator")
+sys.path.append("deepfake-audio-generator/Real-Time-Voice-Cloning")
 
 from mesoModel import predict_image
 from ImageSwap import detect_faces, swap_all, swap_one
+from AudioGenerator import generate_audio
+
 
 import cv2
 import matplotlib.pyplot as plt
@@ -334,6 +338,36 @@ def swap_mode():
         os.remove("temp_image.jpg")
 
 
+def voice_generator_mode():
+
+    st.header("DeepFake Audio Detector Mode")
+    st.subheader("Download an Audio file")
+
+    # Charger un fichier audio
+    audio_file = st.file_uploader("Audio file", type=["mp3", "wav", "ogg"])
+
+    # Vérifier si un fichier audio est chargé
+    if audio_file is not None:
+        with open("temp_audio." + audio_file.name.split(".")[-1], "wb") as f:
+            f.write(audio_file.getvalue())
+
+        # Afficher le fichier audio
+        st.audio("temp_audio." + audio_file.name.split(".")[-1])
+
+        st.subheader("Enter a text to generate")
+
+        text = st.text_input("text", placeholder="Write sentence here !")
+
+        generate_audio(text, "temp_audio." + audio_file.name.split(".")[-1])
+
+        st.subheader("Result")
+
+        st.audio("output.wav")
+
+        os.remove("output.wav")
+        os.remove("temp_audio." + audio_file.name.split(".")[-1])
+
+
 page = st.sidebar.selectbox(
     "Select Mode",
     [
@@ -349,6 +383,6 @@ if page == "DeepFake Image Detector Mode":
 elif page == "DeepFake Image Generator Mode":
     swap_mode()
 elif page == "DeepFake Audio Generator Mode":
-    pass
+    voice_generator_mode()
 elif page == "DeepFake Video Generator Mode":
     pass
