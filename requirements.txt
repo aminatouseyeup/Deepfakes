@@ -2,7 +2,6 @@ deep-animator
 fastscript
 gdown
 notebook
-tensorflow==1.14.0
 umap-learn
 visdom
 librosa>=0.5.1
