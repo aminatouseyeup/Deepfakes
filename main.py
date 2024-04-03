@@ -2,6 +2,8 @@ import streamlit as st
 import numpy as np
 import os
 import sys
+import time
+import threading
 
 sys.path.append("deepfake-image-detector")
 sys.path.append("deepfake-image-swap")
