@@ -9,10 +9,12 @@ sys.path.append("deepfake-image-detector")
 sys.path.append("deepfake-image-swap")
 sys.path.append("deepfake-audio-generator")
 sys.path.append("deepfake-audio-generator/Real-Time-Voice-Cloning")
+sys.path.append("deepfake-video-generator")
 
 from mesoModel import predict_image
 from ImageSwap import detect_faces, swap_all, swap_one
 from AudioGenerator import generate_audio
+from videogenerator import deep_fake_animation
 
 
 import cv2
@@ -21,7 +23,7 @@ import matplotlib.pyplot as plt
 st.set_page_config(layout="wide")
 st.title("Deepfake Project")
 
-
+'''
 def get_prediction(image_path):
     # Charger l'image
     open_image = cv2.imread(image_path)
@@ -139,7 +141,7 @@ def detector_mode():
 
         st.text(get_prediction("temp_image.jpg"))
 
-        os.remove("temp_image.jpg")
+        os.remove("temp_image.jpg")'''
 
 
 def plot_faces(img, faces):
@@ -370,6 +372,72 @@ def voice_generator_mode():
         os.remove("temp_audio." + audio_file.name.split(".")[-1])
 
 
+
+def video_generation():
+
+    # chemins des fichiers en local
+    config_file = 'deepfake-video-generator/config.yml'  # remplacer par le chemin réel du fichier config
+    model_weights = 'deepfake-video-generator/model_weights.tar'  # remplacer par le chemin réel du fichier config
+
+    # interface utilisateur pour uploader les fichiers
+    st.header("DeepFake Video Generator Mode")
+    st.subheader("Upload an Image and a video to Make a Deepfake")
+    source_image = st.file_uploader("Upload Source Image", type=["png", "jpg", "jpeg"])
+    driver_video = st.file_uploader("Upload Driver Video", type=["mp4"])
+
+    # specification des nomms des fichiers de sortie
+    output_video = 'generated_video.mp4'
+    output_video_fast = 'generated_video_fast.mp4'
+
+    # barre de progrewssion
+    progress_bar = st.progress(0)
+
+    def generate_animation(source_path, driver_path):
+        # execution de la fonction de generation 
+        deep_fake_animation(source_path, driver_path, config_file, model_weights, output_video, output_video_fast)
+        # appelé une fois que la generation est terminée
+        progress_bar.empty()  # nettoie la barre de progression
+
+    # bouton pour lancer le processus de generation de la videao
+    if st.button('Generate Animation'):
+        if source_image and driver_video:
+            # enregistrement des fichiers uploadés sur le serveur
+            with open('temp_source_image.png', 'wb') as f:
+                f.write(source_image.getvalue())
+            st.image("temp_source_image.png")
+            with open('temp_driver_video.mp4', 'wb') as f:
+                f.write(driver_video.getvalue())
+            st.video("temp_driver_video.mp4")
+
+            # demarage du processus de generation dans un thread sseparé
+            thread = threading.Thread(target=generate_animation, args=('temp_source_image.png', 'temp_driver_video.mp4',))
+            thread.start()
+
+            # tant que le thread est actif, maj de la barre de progression
+            while thread.is_alive():
+                time.sleep(0.1)  # maj toutes les 0.1 secondes
+                progress_bar.progress(50)  # maj avec la progression réelle si possible
+            thread.join()  # attendre que le trhead soit termine
+
+            # affichage de la vidéo generee si elle est disponible
+            if os.path.isfile(output_video_fast):
+                st.video(output_video_fast)
+                # utilisation de la fonction de sauvegarde pour télécharger la vidéo
+                with open(output_video_fast, 'rb') as video_file:
+                    st.download_button('Download Generated Video', video_file, file_name=output_video_fast, mime='video/mp4')
+                
+                os.remove(source_image)
+                os.remove(driver_video)
+                os.remove(output_video_fast)
+                os.remove(video_file)
+                
+        else:
+            st.error("Please upload the source image and driver video to proceed.")
+
+
+
+
+
 page = st.sidebar.selectbox(
     "Select Mode",
     [
@@ -381,7 +449,8 @@ page = st.sidebar.selectbox(
 )
 
 if page == "DeepFake Image Detector Mode":
-    detector_mode()
+    #detector_mode()
+    pass
 elif page == "DeepFake Image Generator Mode":
     swap_mode()
 elif page == "DeepFake Audio Generator Mode":
