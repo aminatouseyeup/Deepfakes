@@ -11,6 +11,7 @@ scipy>=1.0.0
 tqdm
 sounddevice
 Unidecode
+imageio-ffmpeg
 inflect
 multiprocess
 numba==0.48
