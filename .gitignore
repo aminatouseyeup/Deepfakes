@@ -1,3 +1,3 @@
 deepfake-audio-generator/Real-Time-Voice-Cloning/encoder/*
-deepfake-video-generator/*
+deepfake-video-generator/model_weights.tar
 deepfake-image-swap/inswapper_128.onnx
