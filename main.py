@@ -11,9 +11,9 @@ sys.path.append("deepfake-audio-generator")
 sys.path.append("deepfake-audio-generator/Real-Time-Voice-Cloning")
 sys.path.append("deepfake-video-generator")
 
-# from mesoModel import predict_image
+#from mesoModel import predict_image
 from ImageSwap import detect_faces, swap_all, swap_one
-from AudioGenerator import generate_audio
+#from AudioGenerator import generate_audio
 from videogenerator import deep_fake_animation
 
 
@@ -24,7 +24,7 @@ st.set_page_config(layout="wide")
 st.title("Deepfake Project")
 
 
-'''def get_prediction(image_path):
+def get_prediction(image_path):
     # Charger l'image
     open_image = cv2.imread(image_path)
     open_image = cv2.cvtColor(open_image, cv2.COLOR_BGR2RGB)
@@ -150,7 +150,7 @@ def detector_mode():
 
             st.text(get_prediction("temp_image.jpg"))
 
-            os.remove("temp_image.jpg")'''
+            os.remove("temp_image.jpg")
 
 
 def plot_faces(img, faces):
@@ -366,7 +366,7 @@ def voice_generator_mode():
     st.subheader("Download an Audio file")
 
     # Charger un fichier audio
-    audio_file = st.file_uploader("Audio file", type=["mp3", "wav", "ogg"])
+    '''audio_file = st.file_uploader("Audio file", type=["mp3", "wav", "ogg"])
 
     # Vérifier si un fichier audio est chargé
     if audio_file is not None:
@@ -400,7 +400,7 @@ def voice_generator_mode():
                         mime="audio/wav",
                     )
 
-                os.remove("output.wav")
+                os.remove("output.wav")'''
 
 
 def video_generation():
@@ -507,11 +507,11 @@ page = st.sidebar.selectbox(
 )
 
 if page == "DeepFake Image Detector Mode":
-    # detector_mode()
-    pass
+    detector_mode()
 elif page == "DeepFake Image Generator Mode":
     swap_mode()
 elif page == "DeepFake Audio Generator Mode":
     voice_generator_mode()
 elif page == "DeepFake Video Generator Mode":
     video_generation()
+    
