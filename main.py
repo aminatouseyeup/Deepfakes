@@ -11,9 +11,10 @@ sys.path.append("deepfake-audio-generator")
 sys.path.append("deepfake-audio-generator/Real-Time-Voice-Cloning")
 sys.path.append("deepfake-video-generator")
 
-#from mesoModel import predict_image
+# from mesoModel import predict_image
 from ImageSwap import detect_faces, swap_all, swap_one
-#from AudioGenerator import generate_audio
+
+# from AudioGenerator import generate_audio
 from videogenerator import deep_fake_animation
 
 
@@ -175,7 +176,7 @@ def plot_faces(img, faces):
             axs[i].text(
                 0.5,
                 1.05,
-                "Face {}".format(i),
+                "Face {}".format(i + 1),
                 horizontalalignment="center",
                 verticalalignment="bottom",
                 transform=axs[i].transAxes,
@@ -244,12 +245,15 @@ def swap_mode():
                     st.subheader("All Faces Detection")
                     plot_faces(img2, faces2)
                     selected_face_index = st.selectbox(
-                        "Select a face to swap:", [None] + list(range(len(faces2)))
+                        "Select a face to swap:",
+                        [None] + list(range(1, len(faces2) + 1)),
                     )
 
                     if selected_face_index is not None:
                         if st.button("Generate"):
-                            res = swap_one(img, faces[0], faces2[selected_face_index])
+                            res = swap_one(
+                                img, faces[0], faces2[selected_face_index - 1]
+                            )
                     else:
                         res = None
 
@@ -279,7 +283,7 @@ def swap_mode():
             st.subheader("Select Face to Swap")
 
             selected_face_index = st.selectbox(
-                "Select a face:", [None] + list(range(len(faces)))
+                "Select a face:", [None] + list(range(1, len(faces) + 1))
             )
 
             select_option = st.selectbox(
@@ -292,7 +296,7 @@ def swap_mode():
 
                     if selected_face_index is not None:
                         if st.button("Generate"):
-                            res = swap_all(img, faces, selected_face_index)
+                            res = swap_all(img, faces, selected_face_index - 1)
                             cv2.imwrite("result.jpeg", res)
 
                             st.subheader("Result")
@@ -325,15 +329,15 @@ def swap_mode():
                             plot_faces(img2, faces2)
                             selected_face_index2 = st.selectbox(
                                 "Select a face to swap:",
-                                [None] + list(range(len(faces2))),
+                                [None] + list(range(1, len(faces2) + 1)),
                             )
 
                             if selected_face_index2 is not None:
                                 if st.button("Generate"):
                                     res = swap_one(
                                         img,
-                                        faces[selected_face_index],
-                                        faces2[selected_face_index2],
+                                        faces[selected_face_index - 1],
+                                        faces2[selected_face_index2 - 1],
                                     )
                             else:
                                 res = None
@@ -341,7 +345,7 @@ def swap_mode():
                         elif len(faces2) == 1:
                             if st.button("Generate"):
                                 res = swap_one(
-                                    img, faces[selected_face_index], faces2[0]
+                                    img, faces[selected_face_index - 1], faces2[0]
                                 )
                         else:
                             res = None
@@ -366,7 +370,7 @@ def voice_generator_mode():
     st.subheader("Download an Audio file")
 
     # Charger un fichier audio
-    '''audio_file = st.file_uploader("Audio file", type=["mp3", "wav", "ogg"])
+    """audio_file = st.file_uploader("Audio file", type=["mp3", "wav", "ogg"])
 
     # Vérifier si un fichier audio est chargé
     if audio_file is not None:
@@ -400,7 +404,7 @@ def voice_generator_mode():
                         mime="audio/wav",
                     )
 
-                os.remove("output.wav")'''
+                os.remove("output.wav")"""
 
 
 def video_generation():
@@ -514,4 +518,3 @@ elif page == "DeepFake Audio Generator Mode":
     voice_generator_mode()
 elif page == "DeepFake Video Generator Mode":
     video_generation()
-    
