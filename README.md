@@ -31,8 +31,8 @@ With pip and virtualenv installed on your system, follow these steps:
 
    ### For Windows
 
-   3.1. Weed need to install `Microsoft Visual C++ 14.0 or greater`
-   3.2. Weed need to install and configure `ffmpeg`
+   3.1. We need to install `Microsoft Visual C++ 14.0 or greater`
+   3.2. We need to install and configure `ffmpeg`
 
 4. Run `pip install -r requirements.txt` to install all required packages.
 
