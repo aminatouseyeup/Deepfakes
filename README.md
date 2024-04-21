@@ -28,6 +28,12 @@ With pip and virtualenv installed on your system, follow these steps:
 1. Clone the repository with `git clone https://github.com/aminatouseyeup/Deepfakes.git`
 2. In your project repo, create the virtual environment with `virtualenv venv` on Python version 3.7
 3. Activate your virtual environment with `venv\Scripts\activate`
+
+   ### For Windows
+
+   3.1. Weed need to install `Microsoft Visual C++ 14.0 or greater`
+   3.2. Weed need to install and configure `ffmpeg`
+
 4. Run `pip install -r requirements.txt` to install all required packages.
 
 ## Download Pre-trained Models
