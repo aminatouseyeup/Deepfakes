@@ -22,8 +22,96 @@ import cv2
 import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide")
-st.title("Deepfake Project")
 
+# CSS for the logo
+st.markdown("""<style>
+    .title {
+        font-size: 60px;
+        font-weight: bold;
+        margin: 0;
+        align-items: center;
+    }
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;}</style>""", unsafe_allow_html=True)
+
+# Logo
+col1, col2 = st.columns([1, 9])
+with col1:
+    st.image('imageApp/logo.png', width=100)
+with col2:
+    st.markdown('<div class="title">DeepFake Studio</div>', unsafe_allow_html=True)
+
+# Background color
+def set_bg_color():
+    st.markdown("""
+        <style>
+        .stApp {
+            background-color: #E9EDF0; 
+        }
+        </style>
+        """, unsafe_allow_html=True)
+set_bg_color()
+
+#Home page
+def home():
+    st.title("Welcome to DeepFake Studio")
+
+    st.markdown("""
+        🌐 **Discover the fascinating world of deepfakes** 🌐
+
+        In a world where reality and fiction often intertwine, deepfakes have emerged as a revolutionary technology capable of creating content that bears an astounding resemblance to the real thing. 🎭 Derived from artificial intelligence and deep learning techniques, deepfakes are videos, images or audio recordings manipulated to make a person say or do something who never actually said or did it. The technology takes its name from “deep learning” and “fake” and is known for both its creative and controversial potential.
+
+        🎬 **DeepFake Studio** is an advanced platform designed for the detection and creation of deepfakes. Whether you're in the field of digital security 🔐, a digital artist 🎨 or a technology enthusiast 💡, DeepFake Studio equips you to explore and understand the depths and consequences of deepfakes.""")
+    
+    
+    st.markdown("""<style>.margin {margin-top: 100px;}</style><div class="margin"></div>""", unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+    with col1: 
+        st.markdown("""
+         ### 🤖 How it works
+
+        - 🔍 Select a mode from the sidebar to begin your exploration.
+        - 🕵️‍♂️ In detector mode, load an image or video to analyze its veracity.
+        - 🧑‍🎨 In generator mode, engage in the creation of deepfakes in compliance with legislation and ethical standards.""")
+    with col2 : 
+        st.markdown("""
+        ### 💻 Technologies used
+
+        At the cutting edge of innovation, we leverage machine learning and sophisticated neural networks 🧠 to guarantee optimum accuracy. """)
+    
+
+    # Use of empty space
+    st.markdown("""<style>.margin {margin-top: 100px;}</style><div class="margin"></div>""", unsafe_allow_html=True)
+    st.markdown("""
+            ### 🛡️ Ethical and responsible use awareness
+
+            We firmly believe in the ethical use of deepfakes. The power of this technology implies great responsibility. DeepFake Studio is committed to the fight against misinformation and manipulation. We call on our community to use these tools with integrity and discernment. 🤝 For each creation, ask yourself if it respects the privacy and dignity of individuals.""")
+    
+    st.markdown("""<style>.margin {margin-top: 50px;}</style><div class="margin"></div>""", unsafe_allow_html=True)
+    st.markdown(""" 
+            ### 🚀 Launch yourself ethically into the era of deepfakes with DeepFake Studio
+
+            We invite you to dive into DeepFake Studio's various features. Discover the potential and limits of deepfakes while remaining vigilant about their impact on our society. 🌟""")
+    
+
+    st.markdown("## Examples")
+    st.write("""
+        Deepfakes can be used for a variety of purposes, from entertainment to education. Here are just a few examples where deepfakes have been applied creatively and responsibly:
+        
+        - **Film and Entertainment:** To recreate deceased actors or rejuvenate actors in flashback scenes.
+        - **Education and Training:** Simulate historical conversations with virtually recreated iconic figures.
+        - **Audio and Music:** Generate songs in the voices of famous singers, with permission.
+        - **Customer Service:** To create virtual assistants who can provide a more human-like interaction.
+
+        """)
+
+    image_path_1 = "imageApp/exemple.jpg"
+    st.image(image_path_1, caption='Swap realised by Deepfake Studio', use_column_width=True)
+    st.markdown("""_**Note**: The above example is presented to inspire positive use of deepfakes. We always recommend respecting copyright and considering the ethical consequences of any deepfake project._""")
+  
 
 def get_prediction(image_path):
     # Charger l'image
@@ -122,9 +210,18 @@ def get_prediction(image_path):
 
 
 def detector_mode():
+    st.info("⚠️ Warning on the Use of Deepfakes: The use of deepfake technology can have important ethical and legal implications. Use this tool responsibly and do not create content that could mislead or harm others. Be sure to respect image rights and copyrights.")
+    st.header("Deepfake Image Detector 🔍")
+    st.markdown("Welcome to the Image Detector Mode, where the line between genuine and manipulated images is clarified. In this mode, our application employs sophisticated AI algorithms to accurately detect alterations and deepfakes in photographs.")
 
-    st.header("DeepFake Image Detector Mode")
-    st.subheader("Upload an Image to Make a Prediction")
+    st.write("### Instructions :")
+    st.markdown("""
+        Follow these simple steps to analyze your images:
+
+        1. Click on 'Browse files' to upload an image from your device.
+        2. Wait for the model to analyze the image and return the results.
+    
+        """)
 
     # upload an image
     uploaded_image = st.file_uploader(
@@ -199,12 +296,22 @@ def save_img():
 
 def swap_mode():
 
-    st.header("DeepFake Image Generator Mode")
-    st.subheader("Upload an Image to Make a Prediction")
+    st.info("⚠️ Warning on the Use of Deepfakes: The use of deepfake technology can have important ethical and legal implications. Use DeepScan responsibly and do not create content that could mislead or harm others. Be sure to respect image rights and copyrights.")
+    st.header("Deepfake Image Generator 🖼️ ")
+    st.markdown("""Welcome to the Swap Mode, where the lines between reality and digital artistry blur. In this mode, our application harnesses advanced AI algorithms to seamlessly exchange faces in images. """)
+
+    st.write("### Instructions :")
+    st.markdown("""
+        Follow these simple steps to generate your deepfake:
+
+        1. Click on 'Browse files' to upload an image from your device.
+        2. Wait for the model to analyze the image and return the results.
+""")
 
     # upload an image
+    st.subheader("Upload Base Image")
     uploaded_image = st.file_uploader(
-        "Upload your own image to test the model:", type=["jpg", "jpeg", "png"]
+        "Image 1 :", type=["jpg", "jpeg", "png"]
     )
 
     res = None
@@ -224,10 +331,10 @@ def swap_mode():
 
         if len(faces) <= 1:
 
-            st.subheader("Upload Second Image to Swap")
+            st.subheader("Upload Image to Swap")
 
             uploaded_image2 = st.file_uploader(
-                "Upload your own image 2 to test the model:",
+                "Image 2",
                 type=["jpg", "jpeg", "png"],
             )
 
@@ -366,8 +473,20 @@ def swap_mode():
 
 def voice_generator_mode():
 
-    st.header("DeepFake Audio Detector Mode")
-    st.subheader("Download an Audio file")
+    st.info("⚠️ Warning on the Use of Deepfakes: The use of deepfake technology can have important ethical and legal implications. Use this tool responsibly and do not create content that could mislead or harm others. Be sure to respect image rights and copyrights.")
+    st.header("Deepfake Audio Generator 🎙️")
+    st.markdown("Welcome to the Audio Generator Mode, where the distinction between real and synthetic voices fades away. In this mode, our application leverages cutting-edge AI algorithms to create realistic audio clips that mimic human speech.")
+
+    st.write("### Instructions :")
+    st.markdown("""
+        Follow these simple steps to generate your deepfake:
+
+        1. Click on 'Browse files' to upload an audio file from your device.
+        2. Write the text you want to generate
+        3. Wait for the model to analyze the text and the audio and return the results.
+    
+        """)
+    st.subheader("Upload an audio file")
 
     # Charger un fichier audio
     """audio_file = st.file_uploader("Audio file", type=["mp3", "wav", "ogg"])
@@ -414,14 +533,26 @@ def video_generation():
     model_weights = "deepfake-video-generator/model_weights.tar"  # remplacer par le chemin réel du fichier config
 
     # interface utilisateur pour uploader les fichiers
-    st.header("DeepFake Video Generator Mode")
-    st.subheader("Upload an Image to Make a Deepfake")
+    st.info("⚠️ Warning on the Use of Deepfakes: The use of deepfake technology can have important ethical and legal implications. Use this tool responsibly and do not create content that could mislead or harm others. Be sure to respect image rights and copyrights.")
+    st.header("Deepfake Video Generator 🎬")
+    st.markdown("""Welcome to the Video Generator Mode, where the boundaries between reality and digital creation become fluid. In this mode, our application utilizes advanced AI algorithms to seamlessly generate or alter faces and scenes in videos.""")
+
+    st.write("### Instructions :")
+    st.markdown("""
+        Follow these simple steps to generate your deepfake:
+
+        1. Click on 'Browse files' to upload a source image and a driver video from your device.
+        2. Click on 'Generate' button
+        3. Wait for the model to analyze the files and return the results.
+    
+        """)
+    st.subheader("Upload source image")
     source_image = st.file_uploader("Upload Source Image", type=["png", "jpg", "jpeg"])
 
     if source_image is not None:
         st.image(source_image)
 
-        st.subheader("Upload a video to Make a Deepfake")
+        st.subheader("Upload driver video")
         driver_video = st.file_uploader("Upload Driver Video", type=["mp4"])
 
         if driver_video is not None:
@@ -449,7 +580,8 @@ def video_generation():
                 progress_bar.empty()  # nettoie la barre de progression
 
             # bouton pour lancer le processus de generation de la videao
-            if st.button("Generate Animation"):
+            if st.button("Generate"):
+                st.markdown("""_**Note** : The generation of the video may take some time (approximatively 15 minutes depending on the length of the video). Please be patient !_""")
                 if source_image and driver_video:
                     # enregistrement des fichiers uploadés sur le serveur
                     with open("temp_source_image.png", "wb") as f:
@@ -500,21 +632,22 @@ def video_generation():
                     )
 
 
+st.sidebar.title('Deepfake Studio')
 page = st.sidebar.selectbox(
     "Select Mode",
-    [
-        "DeepFake Image Detector Mode",
-        "DeepFake Image Generator Mode",
-        "DeepFake Audio Generator Mode",
-        "DeepFake Video Generator Mode",
-    ],
+    ["", "Image Detector Mode", 
+     "Image Generator Mode", 
+     "Audio Generator Mode", 
+     "Video Generator Mode"],
+    index=0
 )
-
-if page == "DeepFake Image Detector Mode":
+if page == "":
+    home()
+elif page == "Image Detector Mode":
     detector_mode()
-elif page == "DeepFake Image Generator Mode":
+elif page == "Image Generator Mode":
     swap_mode()
-elif page == "DeepFake Audio Generator Mode":
+elif page == "Audio Generator Mode":
     voice_generator_mode()
-elif page == "DeepFake Video Generator Mode":
+elif page == "Video Generator Mode":
     video_generation()
